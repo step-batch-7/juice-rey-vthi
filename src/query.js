@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const getTotalJuice = function(totalJuice, empTransaction) {
-  return totalJuice + empTransaction.qty;
+  return totalJuice + +empTransaction.qty;
 };
 
 const getValue = function(empId) {

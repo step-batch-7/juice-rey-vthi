@@ -13,7 +13,7 @@ const insertNewTransac = function(existingTransac, empId, bvg, qty, date) {
 };
 
 const save = function(details, bvg, empId, qty, date, path) {
-  let header = "Transaction Record:\nEmployee ID,Beverage,Quantity,Date\n";
+  let header = "Transaction Record:\nEmployee ID,Beverage,Quantity,Date";
   if (isNewEntry(details, empId)) {
     details[empId] = [];
   }

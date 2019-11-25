@@ -8,7 +8,7 @@ describe("validate option", function() {
   it("should validate save option", function() {
     assert.ok(
       [
-        ["--beverage", "orange"],
+        ["--beverage", "Orange"],
         ["--empId", "111"],
         ["--qty", "1"]
       ].every(validateSavePair)
@@ -18,7 +18,7 @@ describe("validate option", function() {
     assert.ok(
       [
         ["--empId", "111"],
-        ["--beverage", "apple"],
+        ["--beverage", "Apple"],
         ["--qty", "3"]
       ].every(validateSavePair)
     );
@@ -37,9 +37,15 @@ describe("validate option", function() {
     assert.ok(
       ![
         ["--empId", "orange"],
-        ["--beverage", "apple"],
+        ["--beverage", "Apple"],
         ["--qty", "3"]
       ].every(validateSavePair)
     );
+  });
+});
+
+describe("validate Query option", function() {
+  it("should validate query option only when the employee id is valid", function() {
+    assert.ok(validateQueryPair(["--empId", "111"], "./testForSave.json"));
   });
 });
