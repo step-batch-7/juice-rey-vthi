@@ -1,6 +1,9 @@
 const getPair = require("../src/performOperation").getPair;
 const performOperation = require("../src/performOperation").performOperation;
+const getTransDetails = require("../src/existingEmpsJuiceTRansDetails")
+  .getTransDetails;
 const assert = require("assert");
+const fs = require("fs");
 
 describe("get paired argument", function() {
   it("should pair the arguments", function() {
@@ -214,5 +217,12 @@ describe("perform save operation", function() {
       performOperation(actualObject, actualArgs, "./testForSave.json", date),
       expected
     );
+  });
+});
+
+describe("gettingObject", function() {
+  it("should return object by parsing it to Json", function() {
+    const expected = JSON.parse(fs.readFileSync("./testForSave.json"));
+    assert.deepStrictEqual(getTransDetails("./testForSave.json"), expected);
   });
 });
