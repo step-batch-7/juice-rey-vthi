@@ -1,4 +1,5 @@
 const save = require("../src/save").save;
+const insertNewTransac = require("../src/save").insertNewTransac;
 const assert = require("assert");
 
 describe("test save funtion", function() {
@@ -35,6 +36,34 @@ describe("test save funtion", function() {
     };
     assert.deepEqual(
       save(actualData, "apple", 111, 1, "21-11-2000", "./testForSave.json"),
+      expected
+    );
+  });
+
+  it("shoud push new transaction of employee", function() {
+    const expected = {
+      "10": [{ beverage: "orange", qty: 1, date: "01-01-2019" }]
+    };
+    const actualargs = assert.deepStrictEqual(
+      insertNewTransac({ "10": [] }, 10, "orange", 1, "01-01-2019"),
+      expected
+    );
+  });
+  it("shoud push new transaction with existing transaction", function() {
+    const expected = {
+      "10": [
+        { beverage: "orange", qty: 1, date: "01-01-2019" },
+        { beverage: "apple", qty: 2, date: "02-02-2019" }
+      ]
+    };
+    const actualargs = assert.deepStrictEqual(
+      insertNewTransac(
+        { "10": [{ beverage: "orange", qty: 1, date: "01-01-2019" }] },
+        10,
+        "apple",
+        2,
+        "02-02-2019"
+      ),
       expected
     );
   });
