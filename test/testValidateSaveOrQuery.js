@@ -117,3 +117,29 @@ describe("test for validate query pair function", function() {
     assert.ok(!validateQueryPair(pairedArgs, existingTransac));
   });
 });
+
+describe("test for validate save pair function", function() {
+  it("should return true only when emp argument is valid", function() {
+    assert.ok(validateSavePair(["--empId", "1111"]));
+  });
+
+  it("should return true only when qty arguments is valid", function() {
+    assert.ok(validateSavePair(["--qty", "1"]));
+  });
+
+  it("should return true only when beverage argument is valid", function() {
+    assert.ok(validateSavePair(["--beverage", "Orange"]));
+  });
+
+  it("should return false, when beverage argument is not valid", function() {
+    assert.ok(!validateSavePair(["--beverage", "Carrot"]));
+  });
+
+  it("should return false, when empId argument is not valid", function() {
+    assert.ok(!validateSavePair(["--beverage", "Carrot"]));
+  });
+
+  it("should return false, when quantity argument is not valid", function() {
+    assert.ok(!validateSavePair(["--beverage", "Carrot"]));
+  });
+});
