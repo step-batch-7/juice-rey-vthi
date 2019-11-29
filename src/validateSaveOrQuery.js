@@ -1,6 +1,4 @@
-const fs = require("fs");
 const expectedSaveOption = ["--beverage", "--empId", "--qty"];
-const expectedQueryOption = ["--empId"];
 const expectedBeverage = ["Orange", "Apple", "Pomogranate", "Grapes", "Banana"];
 
 const validateSavePair = function(args) {
@@ -13,15 +11,43 @@ const validateSavePair = function(args) {
 };
 
 const validateNumber = function(number) {
-  return typeof +number == "number" && +number % 1 == 0;
+  return +number > 0 && +number % 1 == 0;
 };
 
-const validateQueryPair = function(args, path) {
-  let isValidOption = expectedQueryOption.includes(args[0]);
-  let transactions = JSON.parse(fs.readFileSync(path, "utf8"));
-  isValidId = transactions[args[1]];
-  return isValidOption && isValidId;
+const checkEmpId = function(empId) {
+  return function(transactions) {
+    return transactions["empId"] == empId;
+  };
+};
+
+const isValidDate = function(date) {
+  let bits = date.split("-");
+  if (+bits[0] === 0) {
+    return false;
+  }
+  let isDateValid = new Date(bits[0], bits[1] - 1, bits[2]);
+  return isDateValid && isDateValid.getMonth() + 1 == bits[1];
+};
+
+const isvalidPair = function(existingTransac) {
+  return function(usrArgs) {
+    if (usrArgs[0] == "--empId") {
+      const isValidId = existingTransac.some(checkEmpId(usrArgs[1]));
+      return isValidId;
+    }
+    if (usrArgs[0] == "--beverage") {
+      return expectedBeverage.includes(usrArgs[1]);
+    }
+    return isValidDate(usrArgs[1]);
+  };
+};
+
+const validateQueryPair = function(pairedArgs, existingTransac) {
+  const isValidOption = pairedArgs.every(isvalidPair(existingTransac));
+  return isValidOption;
 };
 
 exports.validateQueryPair = validateQueryPair;
 exports.validateSavePair = validateSavePair;
+exports.validateNumber = validateNumber;
+exports.isValidDate = isValidDate;

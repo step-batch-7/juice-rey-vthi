@@ -1,8 +1,9 @@
 const assert = require("assert");
 const validateSavePair = require("../src/validateSaveOrQuery").validateSavePair;
+const validateNumber = require("../src/validateSaveOrQuery").validateNumber;
+const isValidDate = require("../src/validateSaveOrQuery").isValidDate;
 const validateQueryPair = require("../src/validateSaveOrQuery")
   .validateQueryPair;
-const validateNumber = require("../src/validateSaveOrQuery").validateNumber;
 
 describe("test validate number function", function() {
   it("should validate any positive number", function() {
@@ -141,5 +142,15 @@ describe("test for validate save pair function", function() {
 
   it("should return false, when quantity argument is not valid", function() {
     assert.ok(!validateSavePair(["--beverage", "Carrot"]));
+  });
+});
+
+describe("test isValid Date", function() {
+  it("should return true when date is valid", function() {
+    assert.ok(isValidDate("2019-2-2"));
+  });
+
+  it("should return false when date is valid", function() {
+    assert.ok(!isValidDate("2019-2-32"));
   });
 });
