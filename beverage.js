@@ -5,11 +5,10 @@ const writeIntoFile = require("./src/fileReader").writeIntoFile;
 
 const main = function(args) {
   const path = "./juiceTransacDetails.json";
-  const existingTransaction = readFile(path);
   const transactionRecord = performCmd(
-    existingTransaction,
     args.slice(2),
     path,
+    readFile,
     dateGenerator,
     writeIntoFile
   );

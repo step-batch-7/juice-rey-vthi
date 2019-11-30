@@ -4,8 +4,9 @@ const validateQueryPair = require("./validateSaveOrQuery").validateQueryPair;
 const saveCmd = require("./saveCmd").saveCmd;
 const queryCmd = require("./queryCmd").queryCmd;
 
-const performCmd = function(transObj, args, path, date, writeIntoFile) {
+const performCmd = function(args, path, readFile, date, writeIntoFile) {
   const pairedArgs = getPair(args.slice(1));
+  const transObj = readFile(path);
   const isValidSaveCmd = validateSave(pairedArgs, args.length);
   const isValidQueryCmd = validateQuery(pairedArgs, args.length, transObj);
   if (args[0] == "--save" && isValidSaveCmd) {

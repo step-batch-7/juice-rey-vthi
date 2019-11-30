@@ -2,6 +2,8 @@ const assert = require("assert");
 const validateSavePair = require("../src/validateSaveOrQuery").validateSavePair;
 const validateNumber = require("../src/validateSaveOrQuery").validateNumber;
 const isValidDate = require("../src/validateSaveOrQuery").isValidDate;
+const checkEmpId = require("../src/validateSaveOrQuery").checkEmpId;
+const isValidPair = require("../src/validateSaveOrQuery").isvalidPair;
 const validateQueryPair = require("../src/validateSaveOrQuery")
   .validateQueryPair;
 
@@ -17,6 +19,62 @@ describe("test validate number function", function() {
   });
   it("should not validate other than number", function() {
     assert.ok(!validateNumber("1111ee"));
+  });
+});
+
+describe("test isValidPair function", function() {
+  it("should check pair of beverage arguments", function() {
+    const existingTransac = {
+      empId: "1111",
+      beverage: "Orange",
+      qyt: "1",
+      date: "2019-04-12"
+    };
+    assert.ok(isValidPair.bind(null, ["--beverage", "hello"], existingTransac));
+  });
+
+  it("should check pair of employee Id arguments", function() {
+    const existingTransac = {
+      empId: "1112",
+      beverage: "Banana",
+      qyt: "1",
+      date: "2019-04-12"
+    };
+    assert.ok(isValidPair.bind(null, ["--empId", "1112"], existingTransac));
+  });
+
+  it("should check pair of date arguments", function() {
+    const existingTransac = {
+      empId: "1112",
+      beverage: "Banana",
+      qyt: "1",
+      date: "2019-04-12"
+    };
+    assert.ok(
+      isValidPair.bind(null, existingTransac, ["--date", "2019-12-12"])
+    );
+  });
+});
+
+describe("test checkEmpId function", function() {
+  it("should search for given employee id in the object ", function() {
+    const transaction = {
+      empId: "1111",
+      beverage: "Orange",
+      qty: "1",
+      date: "2019-12-10"
+    };
+    assert.ok(checkEmpId.bind(null, "1111", transaction));
+  });
+
+  it("should search for given employee id in the object ", function() {
+    const transaction = {
+      empId: "1111",
+      beverage: "Orange",
+      qty: "1",
+      date: "2019-12-10"
+    };
+    assert.ok(checkEmpId.bind(null, "1112666", transaction));
   });
 });
 

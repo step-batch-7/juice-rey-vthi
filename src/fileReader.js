@@ -1,5 +1,5 @@
 const fs = require("fs");
-
+const encoding = "utf8";
 const readFile = function(path) {
   if (!fs.existsSync(path)) {
     fs.writeFileSync(path, "[]", "utf8");
@@ -19,3 +19,4 @@ const date = function() {
 exports.writeIntoFile = writeIntoFile;
 exports.readFile = readFile;
 exports.date = date;
+exports.encoding = encoding;
