@@ -1,31 +1,22 @@
 const fs = require("fs");
-const validateSavePair = require("./validateSaveOrQuery").validateSavePair;
-const validateQueryPair = require("./validateSaveOrQuery").validateQueryPair;
+
+const { validateSave, validateQuery } = require("./validateSaveOrQuery");
 const saveCmd = require("./saveCmd").saveCmd;
 const queryCmd = require("./queryCmd").queryCmd;
 
-const performCmd = function(args, path, readFile, date, writeIntoFile) {
+const performCmd = function(args, path, readFile, date, writeFile) {
   const pairedArgs = getPair(args.slice(1));
+  const option = args[0];
   const transObj = readFile(path);
-  const isValidSaveCmd = validateSave(pairedArgs, args.length);
-  const isValidQueryCmd = validateQuery(pairedArgs, args.length, transObj);
-  if (args[0] == "--save" && isValidSaveCmd) {
-    const newTransaction = saveArgs(args, date);
-    const transactionRecords = saveCmd(
-      transObj,
-      newTransaction,
-      path,
-      writeIntoFile
-    );
-    return formatSaveRecord(transactionRecords);
+  const isValidSaveCmd =
+    option == "--save" && validateSave(pairedArgs, args.length);
+  const isValidQueryCmd =
+    option == "--query" && validateQuery(pairedArgs, args.length, transObj);
+  const isValidArgs = isValidQueryCmd || isValidSaveCmd;
+  if (!isValidArgs) {
+    return "Enter valid option";
   }
-  if (args[0] == "--query" && isValidQueryCmd) {
-    const usrArgs = queryArgs(args.slice(1));
-    const transactionRecords = queryCmd(usrArgs, transObj);
-    const numberOfJuice = transactionRecords.reduce(getTotalNumberOfJuice, 0);
-    return formatQueryRecord(transactionRecords, numberOfJuice);
-  }
-  return "Enter valid option";
+  return commands[option](args, transObj, path, writeFile, date);
 };
 
 const getPair = function(cmdLine) {
@@ -34,22 +25,6 @@ const getPair = function(cmdLine) {
     pairedArgs.push([cmdLine[argmnt], cmdLine[argmnt + 1]]);
   }
   return pairedArgs;
-};
-
-const validateSave = function(pairedArgs, argLength) {
-  const isValidSaveLength = validateLength(argLength, [7]);
-  const isValidSaveOption = pairedArgs.every(validateSavePair);
-  return isValidSaveLength && isValidSaveOption;
-};
-
-const validateQuery = function(pairedArgs, argsLength, transacObj) {
-  const isValidQueryOption = validateQueryPair(pairedArgs, transacObj);
-  const isValidQueryLength = validateLength(argsLength, [5, 3, 7]);
-  return isValidQueryLength && isValidQueryOption;
-};
-
-const validateLength = function(actualLength, expectedLength) {
-  return expectedLength.includes(actualLength);
 };
 
 const saveArgs = function(args, date) {
@@ -89,5 +64,18 @@ const formatOneTransac = function(transaction) {
   return `${transaction.empId},${transaction.beverage},${transaction.qty},${transaction.date}`;
 };
 
+const saveCmdCall = function(args, existrans, path, writeFile, date) {
+  const newTrans = saveArgs(args, date);
+  const transactionRecords = saveCmd(existrans, newTrans, path, writeFile);
+  return formatSaveRecord(transactionRecords);
+};
+const queryCmdCall = function(args, existrans) {
+  const usrArgs = queryArgs(args.slice(1));
+  const transactionRecords = queryCmd(usrArgs, existrans);
+  const numberOfJuice = transactionRecords.reduce(getTotalNumberOfJuice, 0);
+  return formatQueryRecord(transactionRecords, numberOfJuice);
+};
+
+const commands = { "--save": saveCmdCall, "--query": queryCmdCall };
 exports.getPair = getPair;
 exports.performCmd = performCmd;

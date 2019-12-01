@@ -12,11 +12,5 @@ const writeIntoFile = function(path, newTransaction) {
   fs.writeFileSync(path, JSON.stringify(newTransaction), "utf8");
 };
 
-const date = function() {
-  return new Date();
-};
-
 exports.writeIntoFile = writeIntoFile;
 exports.readFile = readFile;
-exports.date = date;
-exports.encoding = encoding;
