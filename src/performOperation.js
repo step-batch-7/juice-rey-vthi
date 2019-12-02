@@ -57,7 +57,8 @@ const formatSaveRecord = function(transaction) {
 const formatQueryRecord = function(transactions, numberOfJuice) {
   const header = "Employee ID, Beverage, Quantity, Date\n";
   const formattedRecords = transactions.map(formatOneTransac).join("\n");
-  return `${header}${formattedRecords}\nTotal: ${numberOfJuice} Juice`;
+  numberOfJuice > 1 ? (juiceFormat = "Juices") : (juiceFormat = "Juice");
+  return `${header}${formattedRecords}\nTotal: ${numberOfJuice} ${juiceFormat}`;
 };
 
 const formatOneTransac = function(transaction) {

@@ -152,7 +152,7 @@ describe("test performCommand function for query command", function() {
     };
 
     const expected =
-      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-11-01\nTotal: 2 Juice";
+      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-11-01\nTotal: 2 Juices";
     assert.strictEqual(
       performCmd(usrArgs, "./juiceTransaction", readFile),
       expected
@@ -169,7 +169,7 @@ describe("test performCommand function for query command", function() {
       return existingTrans;
     };
     const expected =
-      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-11-01\nTotal: 2 Juice";
+      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-11-01\nTotal: 2 Juices";
     assert.strictEqual(
       performCmd(usrArgs, "./juiceTransaction", readFile),
       expected
@@ -188,7 +188,7 @@ describe("test performCommand function for query command", function() {
     };
 
     const expected =
-      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-11-01\nTotal: 2 Juice";
+      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-11-01\nTotal: 2 Juices";
     assert.strictEqual(
       performCmd(usrArgs, "./juiceTransaction", readFile),
       expected
@@ -207,7 +207,7 @@ describe("test performCommand function for query command", function() {
     };
     const usrArgs = "--query --date 2019-11-01 --empId 1111".split(" ");
     const expected =
-      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-11-01\nTotal: 2 Juice";
+      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-11-01\nTotal: 2 Juices";
     assert.strictEqual(
       performCmd(usrArgs, "./juiceTransaction", readFile),
       expected
@@ -226,7 +226,7 @@ describe("test performCommand function for query command", function() {
     };
     const usrArgs = "--query --date 2019-03-01 --beverage Orange".split(" ");
     const expected =
-      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-03-01\nTotal: 2 Juice";
+      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-03-01\nTotal: 2 Juices";
     assert.strictEqual(
       performCmd(usrArgs, "./juiceTransaction", readFile),
       expected
@@ -266,7 +266,7 @@ describe("test performCommand function for query command", function() {
       " "
     );
     const expected =
-      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-03-01\nTotal: 2 Juice";
+      "Employee ID, Beverage, Quantity, Date\n1111,Orange,2,2019-03-01\nTotal: 2 Juices";
     assert.strictEqual(
       performCmd(usrArgs, "./juiceTransaction", readFile),
       expected
